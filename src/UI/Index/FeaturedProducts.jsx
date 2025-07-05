@@ -173,7 +173,7 @@ function FeaturedProducts() {
                                                <div className="w-full flex-1 flex flex-col justify-between">
                                                    <div>
                                                        <p className="text-gray-600 text-center line-clamp-2 text-sm leading-tight">
-                                                           {item.productName}
+                                                           {item.name}
                                                        </p>
                                                        <p className="text-lg font-bold text-black mt-1 text-center">₦ {item.price}</p>
                                                    </div>
@@ -185,7 +185,7 @@ function FeaturedProducts() {
                                                            Cart
                                                        </button>
                                                        <Link 
-                                                           to={`/singleproduct/${item._id}`}
+                                                           to={`/product/${item._id}`}
                                                            className="flex-1 flex items-center justify-center gap-1 border border-sky-500 text-sky-500 px-2 py-1 rounded text-sm hover:bg-sky-500 hover:text-white transition-colors"
                                                        >
                                                            <FaEye className="text-xs" /> View

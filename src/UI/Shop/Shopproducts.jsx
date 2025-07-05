@@ -12,7 +12,8 @@ function Shopproducts() {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortOption, setSortOption] = useState('none');
     const [currentPage, setCurrentPage] = useState(1);
-    const [priceRange, setPriceRange] = useState(200);
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(200000);
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
@@ -55,9 +56,7 @@ function Shopproducts() {
                 ? true 
                 : product.category === selectedCategory;
             
-            const matchesPrice = priceRange >= 200 
-                ? true 
-                : product.price <= priceRange;
+            const matchesPrice = product.price >= minPrice && product.price <= maxPrice;
             
             return matchesSearch && matchesCategory && matchesPrice;
         })
@@ -149,11 +148,13 @@ function Shopproducts() {
 
             <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
                 <div className="flex items-center justify-center">
-                    <img
+                    {/* <img
                         src="https://tunatheme.com/tf/html/fiama-preview/fiama/img/logo.png"
                         alt="logo"
                         className="object-contain"
-                    />
+                    /> */}
+            <h1 className=' font-montserrat md:text-[1.5rem] font-extrabold tracking-tighter text-gray-700'>BABAKAZO</h1>
+
                 </div>
 
                 <div className="relative w-full max-w-md">
@@ -227,19 +228,36 @@ function Shopproducts() {
                                 <div className="h-3 bg-gray-200 rounded-full animate-pulse mt-3 w-full"></div>
                             ) : (
                                 <>
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="200"
-                                        value={priceRange}
-                                        onChange={(e) => {
-                                            setPriceRange(Number(e.target.value));
-                                            setCurrentPage(1);
-                                        }}
-                                        className="w-64 h-2 rounded-lg appearance-none cursor-pointer bg-gray-300 accent-[#FF496C] mt-3"
-                                    />
-                                    <span className="mt-3 text-gray-700">
-                                        Price: ₦ 0 - {priceRange >= 200 ? 'All' : `₦ ${priceRange}`}
+                                    <div className="flex gap-3 mt-3">
+                                        <div className="flex flex-col">
+                                            <label className="text-sm text-gray-600 mb-1">Min Price</label>
+                                            <input
+                                                type="number"
+                                                placeholder="0"
+                                                value={minPrice}
+                                                onChange={(e) => {
+                                                    setMinPrice(Number(e.target.value) || 0);
+                                                    setCurrentPage(1);
+                                                }}
+                                                className="w-24 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[#FF496C]"
+                                            />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <label className="text-sm text-gray-600 mb-1">Max Price</label>
+                                            <input
+                                                type="number"
+                                                placeholder="200000"
+                                                value={maxPrice}
+                                                onChange={(e) => {
+                                                    setMaxPrice(Number(e.target.value) || 200000);
+                                                    setCurrentPage(1);
+                                                }}
+                                                className="w-24 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[#FF496C]"
+                                            />
+                                        </div>
+                                    </div>
+                                    <span className="mt-3 text-gray-700 text-sm">
+                                        Price: ₦{minPrice} - ₦{maxPrice}
                                     </span>
                                 </>
                             )}

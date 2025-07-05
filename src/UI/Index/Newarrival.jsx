@@ -138,7 +138,7 @@ function Newarrival() {
                                     <div className="w-full flex-1 flex flex-col justify-between">
                                         <div>
                                             <p className="text-gray-600 text-center line-clamp-2 text-sm leading-tight">
-                                                {item.productName}
+                                                {item.name}
                                             </p>
                                             <p className="text-lg font-bold text-black mt-1 text-center">₦ {item.price}</p>
                                         </div>

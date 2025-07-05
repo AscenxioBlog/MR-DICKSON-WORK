@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { FaStar, FaShoppingCart, FaHeart } from 'react-icons/fa';
 import API_URL from '../../Config';
+import { CartContext } from '../../ReusableComponent/CartContext';
 
 function ProductPage() {
     const { id } = useParams();
+    const { addToCart } = useContext(CartContext);
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -14,6 +16,7 @@ function ProductPage() {
     const [lensPosition, setLensPosition] = useState({ x: 0, y: 0 });
     const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
     const [hovering, setHovering] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
     const imageRef = useRef(null);
     // let {id} = useParams();
     // Fetch product data
@@ -52,6 +55,20 @@ function ProductPage() {
     const handleMouseEnter = () => setHovering(true);
     const handleMouseLeave = () => setHovering(false);
 
+    const handleAddToCart = () => {
+        const cartItem = {
+            ...product,
+            quantity,
+            selectedSize,
+            productName: product.name
+        };
+        
+        addToCart(cartItem, () => {
+            setShowAlert(true);
+            setTimeout(() => setShowAlert(false), 3000);
+        });
+    };
+
     // Zoom lens styles
     const zoomLensStyle = {
         position: 'absolute',
@@ -87,6 +104,11 @@ function ProductPage() {
 
     return (
         <div className="container mx-auto px-4 py-8">
+            <div className={`fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out z-50 ${
+                showAlert ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+            }`}>
+                Added to cart successfully!
+            </div>
             {/* Product Details Section with Zoom */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                 {/* Image with Zoom Container */}
@@ -153,7 +175,7 @@ function ProductPage() {
                     </div>
                     
                     <div className="space-y-2">
-                        <p className="text-2xl font-bold">${product.price}</p>
+                        <p className="text-2xl font-bold">₦{product.price}</p>
                         <p className="text-sm text-gray-600">Brand: {product.brand || 'N/A'}</p>
                         <p className="text-sm text-gray-600">Color: {product.color}</p>
                         <p className="text-sm text-gray-600">Style: {product.style}</p>
@@ -198,7 +220,10 @@ function ProductPage() {
                                 +
                             </button>
                         </div>
-                        <button className="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition flex items-center space-x-2">
+                        <button 
+                            onClick={handleAddToCart}
+                            className="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition flex items-center space-x-2"
+                        >
                             <FaShoppingCart />
                             <span>Add to Cart</span>
                         </button>

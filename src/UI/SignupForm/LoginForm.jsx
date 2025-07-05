@@ -1,10 +1,16 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import API_URL from '../../Config';
+import { AuthContxt } from '../AuthenticationComponent/AuthContext';
 
 
 
 function LoginForm() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { setIsLoggedIn } = useContext(AuthContxt);
+  const from = location.state?.from?.pathname || '/';
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -12,7 +18,6 @@ function LoginForm() {
 
   const [errors, setErrors] = useState({});
   const [showAlert, setShowAlert] = useState(false);
-  let nav = useNavigate()
 
   const handleChange = (e) => {
     setFormData({
@@ -37,20 +42,18 @@ function LoginForm() {
       const data = await response.json();
 
       if (response.ok) {
+        setIsLoggedIn(true);
         setFormData({ email: "", password: "" });
         setShowAlert(true);
         setTimeout(() => {
           setShowAlert(false);
-          nav('/');
+          navigate(from, { replace: true });
         }, 3000);
       } else {
-        if (data.message === 'User not found') {
-          setErrors({ email: 'User not found' });
-        } else if (data.message === 'Incorrect password') {
-          setErrors({ password: 'Incorrect password' });
-        } else {
-          console.error('Login failed:', data.message);
-        }
+        setErrors({
+          email: data.emailMessage || (data.message === 'User not found' ? 'User not found' : null),
+          password: data.passwordMessage || (data.message === 'Incorrect password' ? 'Incorrect password' : null),
+        });
       }
     } catch (error) {
       console.error("Error:", error);

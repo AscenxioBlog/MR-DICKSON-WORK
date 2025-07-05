@@ -17,12 +17,12 @@ function HiddenNav({isOpen, toggleMenu}) {
       onClick={toggleMenu} // Click on overlay triggers toggleMenu
     >
         <nav
-          className={` w-[60%] bg-[#fff] h-screen text-[1.7rem] text-sky-500 grid place-items-center relative ${isOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}
+          className={` w-[60%] bg-[#EAE4D5] h-screen text-[1.4rem] text-[black] grid place-items-center relative ${isOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}
           onClick={handleNavClick} // Prevent overlay click when clicking inside nav
         >
-            <Link to='/' className=' absolute top-4 left-3  font-bold text-sky-500 font-playfair'>BABAKAZO</Link>
-            <button className=' text-4xl absolute top-4 right-3' onClick={toggleMenu}><IoClose /></button>
-            <ol className=' flex flex-col gap-5 text-center font-playfair'>
+            <Link to='/' className=' absolute top-4 left-3  font-bold text-black font-playfair'>BABAKAZO</Link>
+            <button className=' text-4xl absolute top-4 right-3 text-red-900' onClick={toggleMenu}><IoClose /></button>
+            <ol className=' flex flex-col gap-[30px] text-center font-playfair'>
                 <li>
                     <Link to='/'>home</Link>
                 </li>

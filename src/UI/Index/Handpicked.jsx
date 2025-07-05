@@ -1,201 +1,189 @@
-import React from 'react';
-import { FreeShippingOrder } from '../../../Resources/Handpicked';
-import { handPicked } from '../../../Resources/Handpicked';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay, Virtual, Navigation } from 'swiper/modules';
-import { FaLongArrowAltRight } from "react-icons/fa";
-import { IoCallOutline } from "react-icons/io5";
-import { LiaTruckMovingSolid } from "react-icons/lia";
-import { FaRecycle } from "react-icons/fa";
-import { FaMoneyCheckDollar } from "react-icons/fa6";
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import { CartContext } from '../../ReusableComponent/CartContext';
+import { FaEye } from "react-icons/fa";
+import API_URL from '../../Config';
 
 function Handpicked() {
-
-  // Icon map to dynamically render icons based on string keys
-  const iconMap = {
-    LiaTruckMovingSolid: LiaTruckMovingSolid,
-    IoCallOutline: IoCallOutline,
-    FaRecycle: FaRecycle,
-    FaMoneyCheckDollar: FaMoneyCheckDollar ,
-  };
-
-  return (
-    <div className="w-full  py-12">
-      {/* Title Section */}
-      <div className="flex justify-between font-bold rounded p-3 gap-2 bg-[#B6B09F] ">
-        <h1 className="lg:text-2xl">Handpicked for you | Up to 50% Off</h1>  
-        <Link className='flex gap-2'>See All <span className='mt-[3px]'><FaLongArrowAltRight /></span></Link>
-        {/* <div className="h-[3px] w-40 bg-[#FF496C] rounded"></div> */}
-      </div>
-     
-
-     {/* Main Section
-      <div className="lg:min-h-[75vh] lg:bg-[#FAFAFA] mt-5 flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
-    
-        <div className="text-center hidden lg:inline-block lg:text-left max-w-xl">
-          <p className="text-sm text-[#FF496C] uppercase tracking-wide">Deal of the day</p>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-2">
-            Shop Your Flower <br />
-            <span>Best Offer - 50%</span>
-          </h1>
-        </div>
-
+      const { addToCart } = useContext(CartContext);
+      const [productData, setProductData] = useState([]);
+      const [loading, setLoading] = useState(true);
+      const [showAlert, setShowAlert] = useState(false);
+      const [alertMessage, setAlertMessage] = useState('');
   
-        <div className="w-full max-w-[700px] relative">
-          Custom Navigation Buttons
-          <button className="custom-prev absolute left-[-30px] top-1/2 transform -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-md">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-gray-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          <button className="custom-next absolute right-[-30px] top-1/2 transform -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-md">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-gray-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-
+      useEffect(() => {
+          const fetchProducts = async () => {
+              try {
+                  const response = await fetch(`${API_URL}/product`, {
+                      method: "GET",
+                      credentials: "include",
+                  });
+                  
+                  if (!response.ok) {
+                      throw new Error(`HTTP error! status: ${response.status}`);
+                  }
+                  
+                  const data = await response.json();
+                  setProductData(data);
+                  setLoading(false);
+              } catch (error) {
+                  console.error("Error fetching products:", error);
+                  setLoading(false);
+              }
+          };
+          
+          fetchProducts();
+      }, []);
+  
+      const handleAddToCart = (product) => {
+          addToCart(product, (addedItem) => {
+              setAlertMessage(`${addedItem.productName} added to cart!`);
+              setShowAlert(true);
+              setTimeout(() => setShowAlert(false), 3000);
+          });
+      };
+  
+      // Loading Skeleton Component
+      const LoadingSkeleton = () => (
           <Swiper
-            modules={[Pagination, Virtual, Navigation, Autoplay]}
-            spaceBetween={20}
-            autoplay={{ delay: 3000 }}
-            loop={false} 
-            navigation={{
-              nextEl: '.custom-next',
-              prevEl: '.custom-prev',
-            }}
-            virtual
-            breakpoints={{
-              320: { slidesPerView: 2 },
-              640: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
-            }}
+              loop={true}
+              modules={[Autoplay]}
+              breakpoints={{
+                  320: { slidesPerView: 2, spaceBetween: 10 },
+                  640: { slidesPerView: 2, spaceBetween: 15 },
+                  768: { slidesPerView: 2, spaceBetween: 20 },
+                  1024: { slidesPerView: 4, spaceBetween: 25 },
+                  1280: { slidesPerView: 5, spaceBetween: 30 },
+              }}
+              className="mySwiper"
           >
-            {handPicked.map((item, index) => (
-              <SwiperSlide key={item.id} virtualIndex={index}>
-                <Link
-                  to={`/product/${item.id}`}
-                  className="h-[330px] w-full border border-gray-200 p-4 flex flex-col items-center rounded shadow-sm"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.description}
-                    className="w-full h-40 object-cover mb-4"
-                  />
-                  <p className="text-gray-600 text-center text-sm line-clamp-2 mt-2">
-                    {item.description}
-                  </p>
-                  <p className="text-xl font-bold text-gray-800 mt-auto"># {item.price}</p>
-                </Link>
-              </SwiperSlide>
-            ))}
+              {[...Array(5)].map((_, index) => (
+                  <SwiperSlide key={index}>
+                      <div className="border border-gray-200 p-2 flex flex-col items-center rounded shadow-sm bg-white h-[250px] overflow-hidden">
+                          {/* Image Skeleton */}
+                          <div className="h-[120px] w-full mb-2 bg-gray-200 rounded animate-pulse"></div>
+                          
+                          {/* Text Skeleton */}
+                          <div className="w-full flex-1 flex flex-col justify-between">
+                              <div>
+                                  <div className="h-4 bg-gray-200 rounded-full animate-pulse mb-2 w-3/4 mx-auto"></div>
+                                  <div className="h-4 bg-gray-200 rounded-full animate-pulse mb-2 w-1/2 mx-auto"></div>
+                                  <div className="h-6 bg-gray-200 rounded-full animate-pulse w-1/3 mx-auto mt-2"></div>
+                              </div>
+                              
+                              {/* Button Skeletons */}
+                              <div className="flex gap-2 mt-2 w-full justify-center">
+                                  <div className="flex-1 h-8 bg-gray-200 rounded animate-pulse"></div>
+                                  <div className="flex-1 h-8 bg-gray-200 rounded animate-pulse"></div>
+                              </div>
+                          </div>
+                      </div>
+                  </SwiperSlide>
+              ))}
           </Swiper>
-        </div>
-      </div> */}
-
-    <div className="w-full relative">
-          {/* Custom Navigation Buttons */}
-          <button className="custom-prev absolute left-[-5px] top-1/2 transform -translate-y-1/2 z-10 bg-gray-200 p-2 rounded-full shadow-md">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-gray-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          <button className="custom-next absolute right-[-5px] top-1/2 transform -translate-y-1/2 z-10 bg-gray-200 p-2 rounded-full shadow-md">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-gray-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-
-          <Swiper
-            modules={[Pagination, Virtual, Navigation, Autoplay]}
-            spaceBetween={20}
-            autoplay={{ delay: 3000 }}
-            loop={false} 
-            navigation={{
-              nextEl: '.custom-next',
-              prevEl: '.custom-prev',
-            }}
-            virtual
-            breakpoints={{
-              320: { slidesPerView: 2 },
-              640: { slidesPerView: 2 },
-              1024: { slidesPerView: 5 },
-            }}
-          >
-            {handPicked.map((item, index) => (
-              <SwiperSlide key={item.id} virtualIndex={index}>
-                <Link
-                  to={`/product/${item.id}`}
-                  className="h-[300px] mt-2 w-full border border-gray-200 p-4 flex flex-col items-center rounded shadow-sm"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.description}
-                    className="w-full h-40 object-cover mb-4"
-                  />
-                  <p className="text-gray-600 text-center text-sm line-clamp-2 mt-2">
-                    {item.description}
-                  </p>
-                  <p className="text-xl font-bold text-gray-800 mt-auto">₦ {item.price}</p>
-                </Link>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-
-
-        
-      {/* Free Shipping / Services Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-10">
-        {FreeShippingOrder.map((item) => {
-          const IconComponent = iconMap[item.icon]; 
-          return (
-            <div
-              key={item.id}
-              className="border border-gray-200 flex justify-center items-center space-x-3 rounded bg-white"
-            >
-              <span className="text-3xl text-[#FF496C]">
-                {IconComponent && <IconComponent />}
-              </span>
-              <div>
-              <strong className="text-gray-600 text-center mt-3">{item.description}</strong>
-              <p className=" font-bold text-black-600">{item.text}</p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
+      );
+  return (
+    <div><div className="">
+                {/* Alert Notification */}
+                {showAlert && (
+                    <div className="fixed top-20 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in">
+                        {alertMessage}
+                    </div>
+                )}
+    
+                {/* Title Section */}
+                <div className="flex gap-2 flex-col mt-8">
+                    <h1 className="text-3xl font-bold">Handpicked</h1>
+                    <div className="h-[3px] w-25 rounded bg-[#FF496C]"></div>
+                </div>
+    
+                {/* Responsive Swiper Slider */}
+                <div className="mt-6">
+                    {loading ? (
+                        <LoadingSkeleton />
+                    ) : (
+                        <Swiper
+                            loop={true}
+                            autoplay={{
+                                delay: 2900,
+                                disableOnInteraction: false,
+                            }}
+                            modules={[Autoplay]}
+                            breakpoints={{
+                                320: { slidesPerView: 2, spaceBetween: 10 },
+                                640: { slidesPerView: 2, spaceBetween: 15 },
+                                768: { slidesPerView: 2, spaceBetween: 20 },
+                                1024: { slidesPerView: 4, spaceBetween: 25 },
+                                1280: { slidesPerView: 5, spaceBetween: 30 },
+                            }}
+                            className="mySwiper"
+                        >
+                            {productData.map((item) => (
+                                <SwiperSlide key={item._id}>
+                                    <div className="border h-[250px] border-sky-500 p-2 flex flex-col items-center rounded shadow-sm bg-white hover:shadow-md transition-shadow overflow-hidden">
+                                        {/* Image container with fixed height */}
+                                        <div className="h-[120px] w-full flex items-center justify-center mb-2">
+                                            <img
+                                                    src={item.images[0]}
+                                                    alt={item.name}
+                                                    className="h-full w-auto object-contain"
+                                                />
+                                        </div>
+                                        
+                                        {/* Product info with constrained height */}
+                                        <div className="w-full flex-1 flex flex-col justify-between">
+                                            <div>
+                                                <p className="text-gray-600 text-center line-clamp-2 text-sm leading-tight">
+                                                    {item.name}
+                                                </p>
+                                                <p className="text-lg font-bold text-black mt-1 text-center">₦ {item.price}</p>
+                                            </div>
+                                            
+                                            {/* Buttons with compact styling */}
+                                            <div className="flex gap-2 mt-2 w-full justify-center">
+                                                <button 
+                                                    onClick={() => handleAddToCart(item)}
+                                                    className="flex-1 flex items-center justify-center gap-1 bg-sky-500 text-white px-2 py-1 rounded text-sm hover:bg-sky-600 transition-colors"
+                                                >
+                                                    Cart
+                                                </button>
+                                                <Link 
+                                                    to={`/product/${item._id}`}
+                                                    className="flex-1 flex items-center justify-center gap-1 border border-sky-500 text-sky-500 px-2 py-1 rounded text-sm hover:bg-sky-500 hover:text-white transition-colors"
+                                                >
+                                                    <FaEye className="text-xs" /> View
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    )}
+                </div>
+    
+                {/* Animation Styles */}
+                <style jsx>{`
+                    @keyframes pulse {
+                        0%, 100% { opacity: 1; }
+                        50% { opacity: 0.5; }
+                    }
+                    .animate-pulse {
+                        animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+                    }
+                    @keyframes fade-in {
+                        from { opacity: 0; transform: translateY(-10px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                    .animate-fade-in {
+                        animation: fade-in 0.3s ease-out;
+                    }
+                `}</style>
+            </div></div>
+  )
 }
 
-export default Handpicked;
+export default Handpicked

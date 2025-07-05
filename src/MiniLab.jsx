@@ -13,6 +13,7 @@ import CheckoutComponent from './UI/CheckoutComponent/CheckoutComponent'
 import CartComponent from "./UI/CartComponent/CartComponent";
 import FooterComponent from "./ConstantComponent/FooterComponent/FooterComponent";
 import { Route, Routes, useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import Authentication from "./UI/AuthenticationComponent/Authentication";
 import Admin from './UI/AdminComponent/Admin'
 import AddProduct from './UI/AdminComponent/AddProduct'
@@ -37,10 +38,20 @@ import Shop from './UI/Shop/Shop'
 import SignupForm from './UI/SignupForm/SignupForm'
 import LoginForm from './UI/SignupForm/LoginForm'
 import NotFound from './UI/NotFound/NotFound'
+import ProductPage from './UI/ProductDetailsPage/Product1'
+import LoadingScreen from './UI/LoadingScreen/LoadingScreen'
 
 
 function MiniLab() {
     const location = useLocation()
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false)
+        }, 2000)
+        return () => clearTimeout(timer)
+    }, [])
 
         const hideHeaderFoter = location.pathname === '/Checkuser' || 
          location.pathname === '/aclab' || 
@@ -48,6 +59,10 @@ function MiniLab() {
          location.pathname === '/login' || 
         
         location.pathname.startsWith('/accon');
+  if (isLoading) {
+    return <LoadingScreen />
+  }
+
   return (
     <div>
          {!hideHeaderFoter && <MainHeader />}
@@ -69,7 +84,7 @@ function MiniLab() {
                         </ProtectedRoute>
                       }
                     />
-                    <Route path="/checkuser" element={<Authentication />} />
+                    <Route path="/checkuser" element={<LoginForm />} />
                     <Route path="/order-history" element={<OrderHistoryPage />} />
                     <Route path="/order/:orderId" element={<OrderDetails />} />
                     <Route path="/aclab" element={<AdminSignUp />} />
@@ -84,6 +99,7 @@ function MiniLab() {
                     </Route>
                     <Route path="/sk" element={<ProductSkeleton />} />
                     <Route path="/singleproduct/:id" element={<ProductDetails />} />
+                    <Route path="/product/:id" element={<ProductPage />} />
                     <Route path="/register" element={<SignupForm />} />
                     <Route path="/login" element={<LoginForm />} />
                     <Route path="/password-reset" element={<ForgotPassword/>}/>

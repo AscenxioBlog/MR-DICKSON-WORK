@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { Link } from 'react-router-dom';
 
 function Intro() {
   useEffect(() => {
@@ -21,43 +22,50 @@ function Intro() {
 
   const sliderItems = [
     {
-      image: '/images/slide-1.jpg',
+      image: 'show.jpg',
       title: 'MID-YEAR SALE',
       subtitle: 'Everything must go',
       discount: 'UP TO 65% OFF',
+      bgGradient: 'from-[#ff4d4d] to-[#f9cb28]'
+    },
+    {
+      image: 'shoe1.PNG',
+      title: 'MID-YEAR SALE',
+      subtitle: 'Everything must go',
+      discount: 'UP TO 50% OFF',
       bgGradient: 'from-[#ff4d4d] to-[#f9cb28]'
     }
   ];
 
   const featureCards = [
     { 
-      title: 'Entertainment', 
-      img: 'hospital.jpeg',
+      title: 'Gucci', 
+      img: 'show.jpg',
       color: 'bg-gradient-to-br from-purple-500 to-pink-500'
     },
     { 
-      title: 'TV & Audio', 
-      img: 'chemistry.jpeg',
+      title: 'Versace', 
+      img: 'ver.png',
       color: 'bg-gradient-to-br from-blue-500 to-cyan-400'
     },
     { 
-      title: 'Fresh Finds', 
-      img: 'biology.jpeg',
+      title: 'Nike', 
+      img: 'nike.jpeg',
       color: 'bg-gradient-to-br from-green-500 to-teal-400'
     },
     { 
-      title: 'Smartphones', 
-      img: 'chemistry.jpeg',
+      title: 'New Blance', 
+      img: 'newb.png',
       color: 'bg-gradient-to-br from-red-500 to-orange-400'
     },
     { 
-      title: 'Hot Deals', 
-      img: 'hospital.jpeg',
+      title: 'Adidas', 
+      img: 'Adidas.png',
       color: 'bg-gradient-to-br from-yellow-500 to-amber-400'
     },
     { 
-      title: 'Appliances', 
-      img: 'biology.jpeg',
+      title: 'Tommy Hilfinger', 
+      img: 'tomy.png',
       color: 'bg-gradient-to-br from-indigo-500 to-violet-400'
     },
   ];
@@ -105,15 +113,15 @@ function Intro() {
               <div className="text-3xl md:text-4xl font-black text-white mb-4">
                 {sliderItems[0].discount}
               </div>
-              <button className="px-6 py-2 bg-black text-white rounded-full font-bold text-sm hover:bg-white hover:text-black transition-all">
-                SHOP NOW
-              </button>
+            <Link to="/shop" className="px-6 py-2 bg-black text-white rounded-full font-bold text-sm hover:bg-white hover:text-black transition-all">
+              SHOP NOW
+            </Link>
             </div>
             
             <div className="md:w-1/2 flex justify-center">
               <div className="relative w-[180px] h-[180px] md:w-[220px] md:h-[220px]">
                 <img 
-                  src="/images/slide-1.jpg" 
+                  src= {sliderItems[0].image} 
                   alt="Clearance" 
                   className="w-full h-full object-contain" 
                 />
