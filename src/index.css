@@ -1,0 +1,322 @@
+@import url('https://fonts.googleapis.com/css2?family=Yrsa:ital,wght@0,300..700;1,300..700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  margin: 0;
+  padding:0;
+}
+body{
+  overflow-x: hidden;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+.john{
+  /* top: 400px; */
+  visibility: hidden;
+  transition: opacity 1s ease-in-out;
+}
+.john-bro:hover + .john{
+  opacity: 1;
+  visibility: visible;
+  top: 120px;
+  background-color: #092f6b;
+}
+.john:hover{
+  top: 120px;
+  opacity: 1;
+  visibility: visible;
+  background-color: #092f6b;
+}
+
+
+
+.hexagon{
+  position: relative;
+  width: 5em;
+  height: 8em;
+  background-color: rgba(255, 255, 255, 0.39);
+}
+.hexagon::before,
+.hexagon::after{
+  content: '';
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  background-color: inherit;
+}
+.hexagon::before{
+  transform: rotate(60deg);
+}
+.hexagon::after{
+  transform: rotate(-60deg);
+}
+.galleryp1{
+  height: 0px;
+  background-color: aqua;
+  transition: 1s;
+  clip-path:polygon(50% 0%, 100% 60%, 100% 100%, 0 100%, 0 60%);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+ 
+}
+.first:hover .galleryp1{
+  height: 150px;
+}
+
+.wrap:hover .galleryp2{
+  height: 150px;
+}
+.galleryp2{
+  height: 0px;
+  background-color: aqua;
+  transition: 1s;
+  clip-path:polygon(50% 0%, 100% 60%, 100% 100%, 0 100%, 0 60%);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+ 
+}
+.asthma:hover .galleryp3{
+  height: 150px;
+}
+.galleryp3{
+  height: 0px;
+  background-color: aqua;
+  transition: 1s;
+  clip-path:polygon(50% 0%, 100% 60%, 100% 100%, 0 100%, 0 60%);
+}
+.urine:hover .galleryp4{
+  height: 150px;
+}
+.galleryp4{
+  height: 0px;
+  background-color: aqua;
+  transition: 1s;
+  clip-path:polygon(50% 0%, 100% 60%, 100% 100%, 0 100%, 0 60%);
+}
+.hiv:hover .galleryp5{
+  height: 120px;
+}
+.hiv:hover .galleryp6{
+  height: 120px;
+}
+.galleryp5{
+  /* width: 320px; */
+  height: 0px;
+  background-color: aqua;
+  transition: 1s;
+  clip-path:polygon(50% 0%, 100% 60%, 100% 100%, 0 100%, 0 60%);
+}
+.galleryp6{
+  /* width: 670px; */
+  height: 0px;
+  background-color: aqua;
+  transition: 1s;
+  clip-path:polygon(50% 0%, 100% 60%, 100% 100%, 0 100%, 0 60%);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+
+.lab{
+  clip-path: polygon(40% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%,0% 46%);
+  background-color: blue;
+  height: 30px;
+  width: 30px;
+  animation: blink 2s linear infinite;
+
+}
+@keyframes blink {
+  50%{
+    opacity: 0;
+  }
+  80%{
+    opacity: .5;
+  }
+  
+}
+.special{
+  clip-path: polygon(40% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%,0% 46%);
+  background-color: red;
+  height: 30px;
+  width: 30px;
+  animation: blink 2s linear infinite;
+
+}
+.material{
+  clip-path: polygon(40% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%,0% 46%);
+  background-color: lightblue;
+  height: 30px;
+  width: 30px;
+  animation: blink 2s linear infinite;
+
+}
+.patients{
+  clip-path: polygon(40% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%,0% 46%);
+  background-color: green;
+  height: 30px;
+  width: 30px;
+  animation: blink 2s linear infinite;
+
+}
+
+.pman{
+  height: 180px;
+  width: 180px;
+  background-color: gray;
+  border-radius: 50%;
+}
+.progress-circle {
+  position: relative;
+  height: 180px;
+  width: 180px;
+  border-radius: 50%;
+  background: conic-gradient(
+    red calc(var(--percentage) * 1%), 
+    transparent 0
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.bioborder{
+  background: conic-gradient(
+    blue calc(var(--bioborder) * 1%), 
+    transparent 0
+  );
+
+}
+.histborder{
+  background: conic-gradient(
+    #2c8cd0 calc(var(--histborder) * 1%), 
+    transparent 0
+  );
+}
+.alleborder{
+  background: conic-gradient(
+    green calc(var(--alleborder) * 1%), 
+    transparent 0
+  );
+}
+
+    /* BEGINNING OF CONTACT COMPONENT STYLING  */
+.contactbg{
+  background-image: url(UI/ContactComponent/ContactPictures/background.jpg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: fixed;
+  background-blend-mode: overlay;
+  background-color: #302e45;
+}
+    /* END OF CONTACT COMPONENT STYLING  */
+    
+
+  /* BEGINING OF ABOUT COMPONENT STYLING  */
+  .aboutbg{
+    background-image: url(UI/AboutComponent/AboutPictures/shape-bg-01.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: fixed;
+    background-color: #ecf0f1;
+    background-blend-mode: darken;
+  }
+
+
+  /* BEGINNING OF SERVICES COMPONENT STYLING  */
+  .dotted-list {
+    list-style-type: none; /* Remove default bullet */
+    padding: 0;
+    margin: 0;
+  }
+  
+  .dotted-list li {
+    position: relative;
+    margin-bottom: 10px;
+    padding-left: 20px; /* Space for custom dot */
+  }
+  
+  .dotted-list li::before {
+    content: '•'; /* Unicode for dot */
+    position: absolute;
+    left: 0;
+    color: #333; /* Dot color */
+    font-size: 1.2em; /* Dot size */
+    line-height: 1em;
+  }
+      /* BEGINING OF PRICING COMPONENT STYLING  */
+
+      .ddotted-list {
+        list-style-type: none; /* Remove default bullet */
+        padding: 0;
+        margin: 0;
+      }
+      
+      .ddotted-list li {
+        position: relative;
+        margin-bottom: 10px;
+        padding-left: 20px; /* Space for custom dot */
+      }
+      
+      .ddotted-list li::before {
+        content: '•'; /* Unicode for dot */
+        position: absolute;
+        left: 0;
+        color: white; /* Dot color */
+        font-size: 1.2em; /* Dot size */
+        line-height: 1em;
+      }
+
+      .homeslider{
+        background-size: 100% 100%;
+        background-color: rgba(0, 0, 255, 0.504);
+        background-blend-mode: darken;
+      }
+
+      .frame{
+        background-size: 100% 100%;
+      }
+
+
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.3;
+      }
+    }
+    
+    .animate-pulse {
+      animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    .register_shadow{
+      box-shadow: 0 0 50px black;
+      
+    }
+
+    .Toastify__toast-container {
+    z-index: 9999 !important;
+}
