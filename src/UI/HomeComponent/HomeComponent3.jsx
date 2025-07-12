@@ -1,7 +1,6 @@
 import React from 'react'
 // import { FaArrowRight } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
-import {Polygon} from 'react-awesome-shapes'
 import { FaMicroscope } from "react-icons/fa";
 import { FaDna } from "react-icons/fa6";
 import { GiCorkedTube } from "react-icons/gi";

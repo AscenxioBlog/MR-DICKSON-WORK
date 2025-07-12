@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import OrderCard from './OrderCard'; // Adjust path if needed
 import API_URL from '../../Config';
+import { AuthContxt } from '../AuthenticationComponent/AuthContext';
+
 
 const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const { isLoggedIn } = useContext(AuthContxt);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -16,7 +19,9 @@ const OrderHistoryPage = () => {
           credentials: 'include', // 💥 this is important so that cookies go along
         });
 
-        if (!res.ok) {
+        if (!isLoggedIn) {
+          setError('You must be logged in to view your orders.');
+        }else if (!res.ok) {
           throw new Error('Failed to fetch orders');
         }
 
@@ -35,7 +40,7 @@ const OrderHistoryPage = () => {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto p-4 mt-[100px]">
+    <div className="max-w-4xl mx-auto p-4 mt-[130px]">
       <h2 className="text-2xl font-bold mb-6">My Orders</h2>
 
       {loading ? (
